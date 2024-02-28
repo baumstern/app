@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.1",
-    "@remix-run/dev": "^2.5.0",
+    "@remix-run/dev": "^2.7.2",
     "@tailwindcss/typography": "^0.5.10",
     "@types/node": "^20.11.5",
     "@types/react": "^18.2.20",
