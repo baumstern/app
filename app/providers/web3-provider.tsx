@@ -2,6 +2,7 @@ import { createWeb3Modal } from "@web3modal/wagmi/react";
 import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 import { http, WagmiProvider, createConfig } from "wagmi";
 import { mainnet, sepolia } from "wagmi/chains";
+import { metaMask } from 'wagmi/connectors'
 
 declare module "wagmi" {
 	interface Register {
@@ -9,12 +10,9 @@ declare module "wagmi" {
 	}
 }
 
-if (!process.env.WALLET_CONNECT_ID) {
-	throw new Error("WalletConnect ID environment variable is not set");
-}
 
 // 1. Get projectId at https://cloud.walletconnect.com
-const projectId = process.env.WALLET_CONNECT_ID;
+const projectId = "id";
 
 // 2. Create wagmiConfig
 const metadata = {
@@ -24,13 +22,17 @@ const metadata = {
 	icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
-const chains = [sepolia] as const;
+// const chains = [sepolia] as const;
 
-const config = defaultWagmiConfig({
-	chains, // required
-	projectId, // required
-	metadata, // required
-});
+const config = createConfig({
+	chains: [sepolia],
+	connectors: [metaMask()],
+	transports: {
+	  [sepolia.id]: http(),
+
+	},
+  })
+
 
 // 3. Create modal
 createWeb3Modal({

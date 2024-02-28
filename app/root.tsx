@@ -21,9 +21,7 @@ export default function App() {
 	return (
 		<Document>
 			<RootProvider>
-				<NavMenu />
 				<Outlet />
-				<Footer />
 			</RootProvider>
 		</Document>
 	);
