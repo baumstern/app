@@ -7,6 +7,7 @@ import {
 } from "@hypercerts-org/sdk";
 import { Claim, Report } from "~/types";
 import { getFundedAmountByHCId, getReports } from "./directus.server";
+import { getOrders } from "./marketplace.server";
 
 let reports: Report[] | null = null;
 let hypercertClient: HypercertClient | null = null;
@@ -39,11 +40,13 @@ export const fetchReports = async (): Promise<Report[]> => {
 
 			reports = await Promise.all(
 				claims.map(async (claim, index) => {
+					// step 1: get metadata from IPFS
 					const metadata = await getHypercertMetadata(
 						claim.uri as string,
 						getHypercertClient().storage,
 					);
 
+					// step 2: get offchain data from CMS
 					const fromCMS = await getReports();
 					const cmsReport = fromCMS.find(
 						(cmsReport) => cmsReport.title === metadata.name,
@@ -87,6 +90,30 @@ export const fetchReports = async (): Promise<Report[]> => {
 					} as Report;
 				}),
 			);
+
+			// here we use feature flag to decide if we want to fetch orders
+			// since orders are not created in the testnet
+			// TODO: remove this when we have a real marketplace orders
+			if (process.env.ORDER_FETCHING === "on") {
+				// step 3: get orders from marketplace
+				const orders = await getOrders(reports);
+				reports = reports.map((report) => {
+					for (const order of orders) {
+						if (order && order.hypercertId === report.hypercertId) {
+							report.order = order;
+							break;
+						}
+					}
+					// not fully funded reports should have an order
+					if (!report.order && report.fundedSoFar < report.totalCost) {
+						throw new Error(
+							`[server] No order found for hypercert ${report.hypercertId}`,
+						);
+					}
+					return report;
+				});
+			}
+
 			console.log(`[server] total reports: ${reports.length}`);
 		}
 
