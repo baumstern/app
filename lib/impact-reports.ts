@@ -11,6 +11,8 @@ import { Claim, Report } from "@/types";
 import { getCMSReports, getFundedAmountByHCId } from "./directus";
 import { getOrders } from "./marketplace";
 
+export const runtime = 'edge';
+
 let reports: Report[] | null = null;
 const reportsMutex = new Mutex();
 

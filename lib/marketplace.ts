@@ -4,6 +4,8 @@ import { sepolia } from "viem/chains";
 
 import { Order, Report } from "@/types";
 
+export const runtime = 'edge';
+
 let orders: (Order | null)[] | null = null;
 
 let hypercertExchangeClient: HypercertExchangeClient | null = null;
