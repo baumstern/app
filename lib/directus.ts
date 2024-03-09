@@ -23,8 +23,6 @@ import { sepolia } from "viem/chains";
 import { updateFundedAmount } from "./impact-reports";
 import { CMSContent, Contribution } from "@/types";
 
-export const runtime = 'edge';
-
 // represents contents retrieved from CMS `reports` collection
 let CMSReports: CMSContent[] | null = null;
 

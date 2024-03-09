@@ -4,6 +4,9 @@ import { getNumberOfContributors } from "@/lib/directus";
 import { fetchReports } from "@/lib/impact-reports";
 import type { Report } from "@/types";
 import Link from "next/link";
+
+export const runtime = 'edge';
+
 // import { useMemo } from "react";
 
 // export const meta: MetaFunction = () => {

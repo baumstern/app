@@ -7,6 +7,8 @@ import parse from "html-react-parser";
 import { ChevronLeft, MapPin } from "lucide-react";
 import Link from "next/link";
 
+export const runtime = 'edge';
+
 const getReportData = async (slug?: string | string[]) => {
 	const res = await fetch(`http://localhost:3000/api/reports/${slug}`);
 	const data = await res.json();

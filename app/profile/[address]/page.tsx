@@ -13,6 +13,8 @@
 // import { fetchReportByHCIdt-rimpact-rimpact-reports.server
 // import { useAccountgmiwagmi
 
+export const runtime = 'edge';
+
 // export const loader: LoaderFunction = async ({
 // 	request,
 // }: LoaderFunctionArgs) => {

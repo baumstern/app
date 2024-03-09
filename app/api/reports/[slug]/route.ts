@@ -1,6 +1,8 @@
 import { fetchReportBySlug } from "@/lib/impact-reports";
 import { type NextRequest, NextResponse } from "next/server";
 
+export const runtime = 'edge';
+
 export async function GET(req: NextRequest) {
 	const url = req?.url;
 
